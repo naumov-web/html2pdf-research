@@ -1,3 +1,7 @@
 *
 !public/
 !.gitignore
+wkhtmltopdf_result.pdf
+mpdf_result.pdf
+dompdf_result.pdf
+html2pdf_result.pdf
