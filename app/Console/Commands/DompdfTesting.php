@@ -5,6 +5,10 @@ namespace App\Console\Commands;
 use App\Console\Commands\Contracts\PDFTesterAbstractCommand;
 use Dompdf\Dompdf;
 
+/**
+ * Class DompdfTesting
+ * @package App\Console\Commands
+ */
 class DompdfTesting extends PDFTesterAbstractCommand
 {
     /**
@@ -22,16 +26,6 @@ class DompdfTesting extends PDFTesterAbstractCommand
     protected $description = 'Build PDF via Dompdf';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Get PDF builder name
      *
      * @return string
@@ -45,8 +39,9 @@ class DompdfTesting extends PDFTesterAbstractCommand
      * Build PDF from html
      *
      * @param string $html_path
+     * @return void
      */
-    protected function buildPdf(string $html_path)
+    protected function buildPdf(string $html_path) : void
     {
         $pdf = new Dompdf();
         $pdf->loadHtml(file_get_contents($html_path));

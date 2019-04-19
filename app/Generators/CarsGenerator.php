@@ -12,25 +12,25 @@ class CarsGenerator {
      * Available letters for reg number
      * @var string
      */
-    const REG_NUMBER_LETTERS = 'ABCEHKMOPTYX';
+    public const REG_NUMBER_LETTERS = 'ABCEHKMOPTYX';
 
     /**
      * Available digits for reg number
      * @var string
      */
-    const REG_NUMBER_DIGITS = '0123456789';
+    public const REG_NUMBER_DIGITS = '0123456789';
 
     /**
      * Max count of road accidents
      * @var int
      */
-    const MAX_ACCIDENTS_COUNT = 5;
+    public const MAX_ACCIDENTS_COUNT = 5;
 
     /**
      * Max count of fines
      * @var int
      */
-    const MAX_FINES_COUNT = 10;
+    public const MAX_FINES_COUNT = 10;
 
     /**
      * Config with handbooks for creation cars
@@ -68,7 +68,7 @@ class CarsGenerator {
      *
      * @return array
      */
-    protected function generateOne()
+    protected function generateOne() : array
     {
         $result = [
             'reg_number' => $this->randomRegNumber(),
@@ -79,7 +79,7 @@ class CarsGenerator {
             'transmission_name' => $this->randomFromSet($this->config['transmissions']),
             'road_accidents_count' => rand(0, self::MAX_ACCIDENTS_COUNT + 1),
             'fines_count' => rand(0, self::MAX_FINES_COUNT + 1),
-            'last_service_at' => date("Y-m-d H:i:s")
+            'last_service_at' => date('Y-m-d H:i:s')
         ];
 
         return $result;
@@ -90,7 +90,7 @@ class CarsGenerator {
      *
      * @return string
      */
-    protected function randomRegNumber()
+    protected function randomRegNumber() : string
     {
         $template = 'LDDDLLDDD';
         $letters = self::REG_NUMBER_LETTERS;
@@ -117,7 +117,7 @@ class CarsGenerator {
      * @param array $set
      * @return string
      */
-    protected function randomFromSet(array $set)
+    protected function randomFromSet(array $set) : string
     {
         return $set[rand(0, count($set) - 1)];
     }

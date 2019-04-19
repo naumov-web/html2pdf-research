@@ -5,6 +5,10 @@ namespace App\Console\Commands;
 use App\Console\Commands\Contracts\PDFTesterAbstractCommand;
 use Spipu\Html2Pdf\Html2Pdf;
 
+/**
+ * Class Html2PdfTesting
+ * @package App\Console\Commands
+ */
 class Html2PdfTesting extends PDFTesterAbstractCommand
 {
     /**
@@ -22,16 +26,6 @@ class Html2PdfTesting extends PDFTesterAbstractCommand
     protected $description = 'Build PDF via Html2Pdf';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Get PDF builder name
      *
      * @return string
@@ -45,8 +39,11 @@ class Html2PdfTesting extends PDFTesterAbstractCommand
      * Build PDF from html
      *
      * @param string $html_path
+     *
+     * @return void
+     * @throws \Spipu\Html2Pdf\Exception\Html2PdfException
      */
-    protected function buildPdf(string $html_path)
+    protected function buildPdf(string $html_path) : void
     {
         $pdf = new Html2Pdf();
         $pdf->writeHTML(file_get_contents($html_path));

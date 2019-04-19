@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Contracts;
 
+use Exception;
 use Illuminate\Console\Command;
 use App\Car;
 use Illuminate\Support\Collection;
@@ -12,7 +13,7 @@ use Illuminate\Support\Collection;
  */
 abstract class PDFTesterAbstractCommand extends Command {
 
-    protected $start_time = null;
+    protected $start_time;
 
     /**
      * Get PDF builder name
@@ -27,14 +28,14 @@ abstract class PDFTesterAbstractCommand extends Command {
      * @param string $html_path
      * @return void
      */
-    abstract protected function buildPdf(string $html_path);
+    abstract protected function buildPdf(string $html_path) : void ;
 
     /**
      * Set start_time as current time
      *
      * @return void
      */
-    protected function resetStartTime()
+    protected function resetStartTime() : void
     {
         $this->start_time = time();
     }
@@ -44,7 +45,7 @@ abstract class PDFTesterAbstractCommand extends Command {
      *
      * @return void
      */
-    protected function printTitle()
+    protected function printTitle() : void
     {
         echo "\033[0;32mPDF builder name: " . $this->getTitle() . "\r\n";
         echo "\033[1;37m\r\n";
@@ -55,7 +56,7 @@ abstract class PDFTesterAbstractCommand extends Command {
      *
      * @return void
      */
-    protected function printError()
+    protected function printError() : void
     {
         echo "\033[0;31mPDF building error!\r\n";
         echo "\033[1;37m\r\n";
@@ -66,7 +67,7 @@ abstract class PDFTesterAbstractCommand extends Command {
      *
      * @return void
      */
-    protected function printFinish()
+    protected function printFinish() : void
     {
         echo "=========================================\r\n";
         echo "\r\n";
@@ -77,11 +78,12 @@ abstract class PDFTesterAbstractCommand extends Command {
      * Print diff between current time and start time
      *
      * @param string $label
+     * @param bool $auto_reset
      * @return void
      */
-    protected function printTime(string $label, bool $auto_reset = true)
+    protected function printTime(string $label, bool $auto_reset = true) : void
     {
-        echo $label . ": " . (time() - $this->start_time) . " seconds \r\n";
+        echo $label . ': ' . (time() - $this->start_time) . " seconds \r\n";
 
         if ($auto_reset) {
             $this->resetStartTime();
@@ -107,15 +109,17 @@ abstract class PDFTesterAbstractCommand extends Command {
      * Create html and return his path
      *
      * @param Collection $data
-     * @throws \Exception
+     *
      * @return string
+     * @throws \Throwable
+     * @throws Exception
      */
     protected function createHtml(Collection $data): string
     {
-        $view = view("pdf.cars_report", [
+        $view = view('pdf.cars_report', [
             'cars' => $data
         ]);
-        $html_path = storage_path("app/" . md5(microtime()) . '.html');
+        $html_path = storage_path('app/' . md5(microtime()) . '.html');
 
         file_put_contents($html_path, $view->render());
 
@@ -125,24 +129,26 @@ abstract class PDFTesterAbstractCommand extends Command {
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
+     * @throws Exception
+     * @throws \Throwable
      */
-    public function handle()
+    public function handle() : void
     {
         $this->printTitle();
         $this->resetStartTime();
 
         $data = $this->getData();
-        $this->printTime("Getting data from database");
+        $this->printTime('Getting data from database');
 
         $html_path = $this->createHtml($data);
-        $this->printTime("Building HTML file");
+        $this->printTime('Building HTML file');
 
         try {
             $this->buildPdf($html_path);
-            $this->printTime("Building PDF file");
+            $this->printTime('Building PDF file');
         }
-        catch (\Exception $e) {
+        catch (Exception $e) {
             $this->printError();
         }
 

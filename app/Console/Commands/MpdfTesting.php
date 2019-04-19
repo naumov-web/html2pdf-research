@@ -3,7 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Console\Commands\Contracts\PDFTesterAbstractCommand;
+use Mpdf\Mpdf;
 
+/**
+ * Class MpdfTesting
+ * @package App\Console\Commands
+ */
 class MpdfTesting extends PDFTesterAbstractCommand
 {
     /**
@@ -21,16 +26,6 @@ class MpdfTesting extends PDFTesterAbstractCommand
     protected $description = 'Build PDF via MPDF';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Get PDF builder name
      *
      * @return string
@@ -44,10 +39,12 @@ class MpdfTesting extends PDFTesterAbstractCommand
      * Build PDF from html
      *
      * @param string $html_path
+     *
+     * @throws \Mpdf\MpdfException
      */
-    protected function buildPdf(string $html_path)
+    protected function buildPdf(string $html_path) : void
     {
-        $mpdf = new \Mpdf\Mpdf();
+        $mpdf = new Mpdf();
         $mpdf->WriteHTML(file_get_contents($html_path));
         $mpdf->Output(storage_path('app/mpdf_result.pdf'));
     }

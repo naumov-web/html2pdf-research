@@ -4,6 +4,10 @@ namespace App\Console\Commands;
 
 use App\Console\Commands\Contracts\PDFTesterAbstractCommand;
 
+/**
+ * Class WkhtmlToPdfTesting
+ * @package App\Console\Commands
+ */
 class WkhtmlToPdfTesting extends PDFTesterAbstractCommand
 {
     /**
@@ -21,16 +25,6 @@ class WkhtmlToPdfTesting extends PDFTesterAbstractCommand
     protected $description = 'Build PDF via wkhtmltopdf';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Get PDF builder name
      *
      * @return string
@@ -44,10 +38,11 @@ class WkhtmlToPdfTesting extends PDFTesterAbstractCommand
      * Build PDF from html
      *
      * @param string $html_path
+     * @return void
      */
-    protected function buildPdf(string $html_path)
+    protected function buildPdf(string $html_path) : void
     {
-        $pdf_path = storage_path("app/wkhtmltopdf_result.pdf");
+        $pdf_path = storage_path('app/wkhtmltopdf_result.pdf');
         $command = "wkhtmltopdf $html_path $pdf_path";
         exec($command);
     }
