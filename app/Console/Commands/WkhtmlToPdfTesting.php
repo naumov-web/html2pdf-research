@@ -37,13 +37,13 @@ class WkhtmlToPdfTesting extends PDFTesterAbstractCommand
     /**
      * Build PDF from html
      *
-     * @param string $html_path
+     * @param string $htmlPath
      * @return void
      */
-    protected function buildPdf(string $html_path) : void
+    protected function buildPdf(string $htmlPath) : void
     {
-        $pdf_path = storage_path('app/wkhtmltopdf_result.pdf');
-        $command = "wkhtmltopdf $html_path $pdf_path";
+        $pdfPath = storage_path('app/wkhtmltopdf_result.pdf');
+        $command = "wkhtmltopdf $htmlPath $pdfPath";
         exec($command);
     }
 }

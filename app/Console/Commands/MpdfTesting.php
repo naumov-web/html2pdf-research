@@ -38,14 +38,14 @@ class MpdfTesting extends PDFTesterAbstractCommand
     /**
      * Build PDF from html
      *
-     * @param string $html_path
+     * @param string $htmlPath
      *
      * @throws \Mpdf\MpdfException
      */
-    protected function buildPdf(string $html_path) : void
+    protected function buildPdf(string $htmlPath) : void
     {
         $mpdf = new Mpdf();
-        $mpdf->WriteHTML(file_get_contents($html_path));
+        $mpdf->WriteHTML(file_get_contents($htmlPath));
         $mpdf->Output(storage_path('app/mpdf_result.pdf'));
     }
 }

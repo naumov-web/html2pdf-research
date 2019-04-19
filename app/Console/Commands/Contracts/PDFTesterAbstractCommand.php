@@ -2,18 +2,22 @@
 
 namespace App\Console\Commands\Contracts;
 
+use App\Car;
 use Exception;
 use Illuminate\Console\Command;
-use App\Car;
 use Illuminate\Support\Collection;
 
 /**
  * Class PDFTesterAbstractCommand
  * @package App\Console\Commands\Contracts
  */
-abstract class PDFTesterAbstractCommand extends Command {
-
-    protected $start_time;
+abstract class PDFTesterAbstractCommand extends Command
+{
+    /**
+     * Timestamp, when command was run
+     * @var int
+     */
+    protected $startTime;
 
     /**
      * Get PDF builder name
@@ -25,10 +29,10 @@ abstract class PDFTesterAbstractCommand extends Command {
     /**
      * Build pdf file from html
      *
-     * @param string $html_path
+     * @param string $htmlPath
      * @return void
      */
-    abstract protected function buildPdf(string $html_path) : void ;
+    abstract protected function buildPdf(string $htmlPath) : void ;
 
     /**
      * Set start_time as current time
@@ -37,7 +41,7 @@ abstract class PDFTesterAbstractCommand extends Command {
      */
     protected function resetStartTime() : void
     {
-        $this->start_time = time();
+        $this->startTime = time();
     }
 
     /**
@@ -69,9 +73,9 @@ abstract class PDFTesterAbstractCommand extends Command {
      */
     protected function printFinish() : void
     {
-        echo "=========================================\r\n";
-        echo "\r\n";
-        echo "\r\n";
+        $this->line(str_repeat('=', 30));
+        $this->line('');
+        $this->line('');
     }
 
     /**
@@ -83,7 +87,7 @@ abstract class PDFTesterAbstractCommand extends Command {
      */
     protected function printTime(string $label, bool $auto_reset = true) : void
     {
-        echo $label . ': ' . (time() - $this->start_time) . " seconds \r\n";
+        echo $label . ': ' . (time() - $this->startTime) . " seconds \r\n";
 
         if ($auto_reset) {
             $this->resetStartTime();
@@ -98,6 +102,7 @@ abstract class PDFTesterAbstractCommand extends Command {
     protected function getData()
     {
         $count = $this->option('count');
+
         return Car::query()
             ->when($count, function($query, $count) {
                 $query->limit($count);
@@ -147,8 +152,7 @@ abstract class PDFTesterAbstractCommand extends Command {
         try {
             $this->buildPdf($html_path);
             $this->printTime('Building PDF file');
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->printError();
         }
 

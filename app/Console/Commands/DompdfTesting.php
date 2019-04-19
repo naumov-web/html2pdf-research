@@ -38,13 +38,13 @@ class DompdfTesting extends PDFTesterAbstractCommand
     /**
      * Build PDF from html
      *
-     * @param string $html_path
+     * @param string $htmlPath
      * @return void
      */
-    protected function buildPdf(string $html_path) : void
+    protected function buildPdf(string $htmlPath) : void
     {
         $pdf = new Dompdf();
-        $pdf->loadHtml(file_get_contents($html_path));
+        $pdf->loadHtml(file_get_contents($htmlPath));
         $pdf->setPaper('A4', 'landscape');
         $output = $pdf->output();
         file_put_contents(storage_path('app/dompdf_result.pdf'), $output);

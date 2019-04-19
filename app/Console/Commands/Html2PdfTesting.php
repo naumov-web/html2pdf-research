@@ -38,15 +38,15 @@ class Html2PdfTesting extends PDFTesterAbstractCommand
     /**
      * Build PDF from html
      *
-     * @param string $html_path
+     * @param string $htmlPath
      *
      * @return void
      * @throws \Spipu\Html2Pdf\Exception\Html2PdfException
      */
-    protected function buildPdf(string $html_path) : void
+    protected function buildPdf(string $htmlPath) : void
     {
         $pdf = new Html2Pdf();
-        $pdf->writeHTML(file_get_contents($html_path));
+        $pdf->writeHTML(file_get_contents($htmlPath));
         $pdf->output(storage_path('app/html2pdf_result.pdf'));
     }
 }

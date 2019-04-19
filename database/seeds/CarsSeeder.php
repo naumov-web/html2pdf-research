@@ -31,7 +31,7 @@ class CarsSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run() : void
     {
         Car::truncate();
 
